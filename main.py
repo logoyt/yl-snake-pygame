@@ -32,10 +32,17 @@ class Menu(Scene):
         pos = WIN_SIZE.w // 2, WIN_SIZE.h // 3 * 2
         exit = Button('Quit', pos=pos, name='quit')
         self.btns.add(start, exit)
+        self.font = pg.font.SysFont('comicsansms', 64, True)
+        try:
+            self.best_score = int(open(BEST_SCORE).read())
+        except Exception:
+            self.best_score = 0
+        pg.display.set_caption('Simple snake game')
 
     def render(self):
         self.surface.fill(pg.Color('darkgray'))
         self.btns.draw(self.surface)
+        draw_text(self.surface, self.font, f'Best score: {self.best_score}', (300, 100))
         pg.display.update()
 
     def events(self):
@@ -75,6 +82,16 @@ class Game(Scene):
 
     def on_delete(self):
         self.field.kill()
+
+        score = Head().get_score()
+        try:
+            with open(BEST_SCORE) as f:
+                best_score = int(f.read())
+        except Exception:
+            best_score = 0
+        if score > best_score:
+            with open(BEST_SCORE, 'w') as f:
+                f.write(str(score))
 
 
 if __name__ == '__main__':

@@ -70,8 +70,8 @@ class Head(Cell, metaclass=Singleton):
 
     def update(self, ms):
         keys = pg.key.get_pressed()
-        hor = keys[K_d] - keys[K_a]
-        vert = keys[K_s] - keys[K_w]
+        hor = (keys[K_d] or keys[K_RIGHT]) - (keys[K_a] or keys[K_LEFT])
+        vert = (keys[K_s] or keys[K_DOWN]) - (keys[K_w] or keys[K_UP])
 
         if hor != vert and 0 in (hor, vert):
             dir_new = RID[hor, vert]
@@ -108,6 +108,9 @@ class Head(Cell, metaclass=Singleton):
 
     def is_dead(self):
         return not self.alive
+
+    def get_score(self):
+        return self.score
 
 
 class Tail(Cell):
@@ -147,7 +150,6 @@ class Field(pg.sprite.Sprite, metaclass=Singleton):
         Head().new()
         Apple().respawn()
 
-
     def field(self):
         # фон
         bg = pg.Surface(self.rect.size)
@@ -168,7 +170,7 @@ class Field(pg.sprite.Sprite, metaclass=Singleton):
         self.image.blit(self.bg, (0, 0))
         self.entities.draw(self.image)
         self.border()
-        draw_text(self.image, self.font, f'Score: {Head().score}', (200, 100))
+        draw_text(self.image, self.font, f'Score: {Head().get_score()}', (200, 100))
         if self.debug:
             draw_text(self.image, self.font_debug, f'FPS: {self.clock.get_fps():.0f}', (WIN_SIZE.w - 100, 100))
         if self.state != 'running':

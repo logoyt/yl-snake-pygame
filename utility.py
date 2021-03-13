@@ -13,7 +13,7 @@ class Singleton(type):
 
 
 def window_init():
-    # получаем размеры монитора
+    # получаем размеры [основного] монитора
     from tkinter import Tk
     temp = Tk()
     MONITOR_SIZE = temp.winfo_screenwidth(), \
