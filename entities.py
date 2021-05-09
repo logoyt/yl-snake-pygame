@@ -67,6 +67,7 @@ class Head(Cell, metaclass=Singleton):
         self.delay = 0
         self.score = 1
         self.tail = [self]
+        self.DELAY = Head.DELAY
 
     def update(self, ms):
         keys = pg.key.get_pressed()

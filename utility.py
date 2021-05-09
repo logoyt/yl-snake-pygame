@@ -3,7 +3,6 @@ from pygame.locals import *
 
 from config import *
 
-
 class Singleton(type):
     _instances = {}
     def __call__(cls, *args, **kwargs):
