@@ -70,14 +70,18 @@ class Game(Scene):
         super().__init__(*args)
         self.field = Field(self.clock)
         self.field.new()
+        self.pause_label = Button('Pause')
 
     def update(self):
-        ms = self.clock.tick_busy_loop(FPS) # _busy_loop
-        self.field.update(ms)
+        ms = self.clock.tick_busy_loop(FPS)
+        if not self.pause:
+            self.field.update(ms)
 
     def render(self):
         self.surface.fill(pg.Color('black'))
         self.field.draw(self.surface)
+        if self.pause:
+            self.surface.blit(self.pause_label.image, self.pause_label.rect)
         pg.display.update()
 
     def on_delete(self):
@@ -96,9 +100,3 @@ class Game(Scene):
 
 if __name__ == '__main__':
     Window().run()
-
-# Смена уровней (после прохождения очередного уровня или выбор вручную в начальном меню)
-# Звуковое сопровождение и эффекты
-# [продвинутый уровень] пауза в игровом процессе
-# [продвинутый уровень] внутриигровая монета (очки) и магазин
-# Меню - человечек - нажать на кнопку, чтобы начать змейку.

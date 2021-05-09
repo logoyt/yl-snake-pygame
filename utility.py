@@ -44,6 +44,7 @@ class Scene:
         self.running = True
         self.clock = clock
         self.state = None
+        self.pause = False
 
     def run(self):
         while self.running:
@@ -60,6 +61,9 @@ class Scene:
             if e.type == KEYDOWN:
                 if e.key == K_ESCAPE:
                     self.running = False
+            if e.type == KEYUP:
+                if e.key == K_SPACE:
+                    self.pause = not self.pause
 
     def update(self):
         self.clock.tick(FPS)
